@@ -9,22 +9,27 @@ class UserController {
     }
 
     static authenticateUser (req, res) {
-        User.findOrCreate({
-            where: {
-                email: req.body.email
-            },
-            defaults: {
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password
-            }
+        const { name, email, password, newUser } = req.body;
+        console.log({newUser});
+        if (newUser === 'true') {        
+        User.create({ name, email, password })
+        .then(user => {          
+            return res.status(201).json({user, error: null});        
+        });
+    } else {
+        User.findOne({
+            where : { email }
         })
-        .then(([user, newUser]) => {
-            if(!newUser) {
-                console.log(user)
-            }
-            res.json(user);
-        })
+        .then(user => {
+            user.comparePasswords(req.body.password, (error, isMatch) => {
+                if (isMatch) {
+                   return  res.status(200).json({user, error: null});
+                } else {
+                    return res.json({error: "Invalid Email or Password"})
+                }
+            });
+        });
+    }
     }
 }
 
