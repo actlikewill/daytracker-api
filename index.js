@@ -1,10 +1,15 @@
 console.log('Daytracker is live');
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const morgan = require('morgan');
 const port = process.env.PORT || 3000;
 const modules = require('./modules');
+
+app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

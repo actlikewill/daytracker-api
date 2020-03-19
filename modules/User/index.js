@@ -1,10 +1,10 @@
 const express = require('express');
-const UserController = require('./UserController');
+const { authenticateUser, getAllUsers } = require('./UserController');
 const UserRouter = express.Router();
 
 UserRouter.route('/users')
-    .get(UserController.getAllUsers);
+    .get(getAllUsers);
 UserRouter.route('/authenticate')
-    .post(UserController.authenticateUser)
+    .post(authenticateUser)
 
 module.exports = UserRouter;

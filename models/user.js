@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: {type: DataTypes.STRING, unique: true},
     password: DataTypes.STRING
   }, {
     hooks: {
@@ -15,8 +15,15 @@ module.exports = (sequelize, DataTypes) => {
           });
         }
       },
-    }
+    },
   });
+
+  User.prototype.toJSON = function () {
+    const userObj = Object.assign({}, this.dataValues);
+    delete userObj.password;
+    return userObj;
+  };
+
   User.prototype.comparePasswords = function (password, callback) {
     console.log({password})
     bcrypt.compare(password, this.password, function(error, isMatch) {
