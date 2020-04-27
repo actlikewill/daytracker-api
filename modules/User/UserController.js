@@ -11,7 +11,6 @@ class UserController {
 
     static authenticateUser (req, res) {
         const { name, email, password, newUser } = req.body;
-        console.log({newUser});
         if (newUser === 'true') {        
         User.create({ name, email, password })
         .then(userObj => {
@@ -20,7 +19,6 @@ class UserController {
             return res.status(201).json({token, error: null});        
         })
         .catch((error) => {
-            console.log({error});
             return res.status(400).json({ error: "Email already exists"});
         });
     } else {
@@ -29,15 +27,17 @@ class UserController {
         })
         .then(user => {
             user.comparePasswords(req.body.password, (error, isMatch) => {
-                if (isMatch) {
-                   return  res.status(200).json({user, error: null});
+                if (isMatch) {  
+                   const userObj = user.toJSON();
+                   const token = generateToken(userObj);    
+                   return  res.status(200).json({user, token, error: null});
                 } else {
                     return res.json({error: "Invalid Email or Password"})
                 }
             });
         })
         .catch((e) => {
-            return res.json({ error: "User not found"});
+            return res.status(404).json({ error: "User not found"});
         });
     }
     }
