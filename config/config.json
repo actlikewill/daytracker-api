@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "daytrackerDatabase",
-    "dialect": "sqlite"
+    "username": "postgres",
+    "password": "postgres",
+    "database": "dtlive",
+    "host": "localhost",
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
