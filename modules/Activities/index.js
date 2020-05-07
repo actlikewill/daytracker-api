@@ -1,11 +1,11 @@
 const express = require('express');
 const { authorizeUserMiddleWare } = require('../Auth');
-const { addNewActivity, getActivity } = require('./ActivitiesController');
+const { findOrCreateActivity, getAllActivities } = require('./ActivitiesController');
 const ActivitiesRouter = express.Router();
 
-ActivitiesRouter.route('/fetch-activity')
-    .post(authorizeUserMiddleWare, getActivity);
 ActivitiesRouter.route('/activities')
-    .post(authorizeUserMiddleWare, addNewActivity);
+    .get(authorizeUserMiddleWare, getAllActivities);
+ActivitiesRouter.route('/activity')
+    .post(authorizeUserMiddleWare, findOrCreateActivity);
 
 module.exports = ActivitiesRouter;
