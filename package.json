@@ -2,11 +2,14 @@
   "name": "daytracker-api",
   "version": "1.0.0",
   "description": "API for Daytracker",
-  "main": "index.js",
+  "main": "start.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon start.js",
+    "db:seed": "npx sequelize-cli db:seed:all",
     "db:migrate": "npx sequelize-cli db:migrate",
-    "test": "jest"
+    "db:rollback": "npx sequelize-cli db:migrate:undo:all",
+    "pretest": "env NODE_ENV=test npm run db:migrate",
+    "test": "jest --detectOpenHandles --runInBand --forceExit --coverage"
   },
   "repository": {
     "type": "git",
@@ -24,15 +27,19 @@
     "body-parser": "^1.19.0",
     "config": "^3.3.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.2",
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.5",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
     "jest": "^25.5.4",
     "morgan": "^1.9.1",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "supertest": "^4.0.2"
   }
 }

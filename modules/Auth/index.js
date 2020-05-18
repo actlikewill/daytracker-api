@@ -11,10 +11,11 @@ module.exports = {
         if(!token) return res.status(401).json({error: "Access Denied. No token provided."});
         try {
             const decoded = jwt.verify(token, config.get('privateKey'));
-            req.user = decoded;
+            req.body.user = decoded;
             next();
         } catch (e) {
             return res.status(400).json({error: "Invalid Token"});
         }
-    }
+    },
+    
 }
