@@ -2,11 +2,12 @@ const { User, Activity } = require('../../models');
 const { errorHandler } = require("../Errors");
 class ActivitiesController {
     static async findOrCreateActivity (req, res) {
-        const { user :{ uuid }, activity } = req.body;        
-        Activity.findOrCreate({
+        const { user :{ uuid }, activity, activityId } = req.body;        
+        await Activity.findOrCreate({
             where: {
                 uuid,
-                activity
+                activity, 
+                
             },
             include: User,
         })
@@ -24,9 +25,8 @@ class ActivitiesController {
     }
     static async getAllActivities (req, res) {
         const { user: { uuid } } = req.body;        
-        const currentUser = await User.findByPk(uuid);
-        console.log({currentUser});
-            currentUser.getActivities()
+        const currentUser = await User.findByPk(uuid);        
+           await currentUser.getActivities()
             .then(activities => res.status(200).json({activities}))
             .catch(e => errorHandler(e, res));    
     }

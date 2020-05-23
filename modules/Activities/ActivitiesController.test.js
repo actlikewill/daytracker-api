@@ -1,17 +1,19 @@
 const app = require('../../index');
 const supertest = require('supertest');
 const request = supertest(app);
-const { User } = require('../../models');
+const { User, Activity } = require('../../models');
 const { generateToken } = require('../Auth');
 
 const testUser = { name: 'obama', email: 'obamas@email.com', password: '1234456', uuid: '3c2c037f-a884-4e0b-b8c7-1b0b86580096'};
 const testToken = generateToken(testUser);
 describe('ACTIVITIES ENDPOINTS', () => {
   beforeAll(async () => {
-    await User.destroy({force: true, truncate: { cascade: true}});       
+    await User.destroy({force: true, truncate: { cascade: true}});
+    await Activity.destroy({force: true, truncate: { cascade: true}})       
 });
   afterAll(async () => {
     await User.destroy({force: true, truncate: { cascade: true}});
+    await Activity.destroy({force: true, truncate: { cascade: true}})
   });
   beforeEach(async () => {
     const { name, email, password, uuid} = testUser
