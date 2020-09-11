@@ -1,9 +1,12 @@
 const UserRouter = require('./User');
 const ActivitesRouter = require('./Activities');
+const TrackActivityRouter = require('./Tracker');
 
 const routes = [
     UserRouter,
-    ActivitesRouter
+    ActivitesRouter,
+    TrackActivityRouter
+    
 ];
 
 module.exports = (app) => {

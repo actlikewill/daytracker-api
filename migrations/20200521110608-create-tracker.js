@@ -1,22 +1,31 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Activities', {
+    return queryInterface.createTable('Trackers', {
       id: {
         allowNull: false,
         autoIncrement: true,        
         type: Sequelize.INTEGER
       },
-         activity: {
-        type: Sequelize.STRING,        
-      },
-         uuid: {
-        type: Sequelize.UUID,
-      },
-      activityId: {
+      trackingId: {
         primaryKey: true,
         defaultValue: Sequelize.UUIDV4,      
         type: Sequelize.UUID,
+      },
+      activityId: {
+        type: Sequelize.UUID
+      },
+      uuid: {
+        type: Sequelize.UUID
+      },
+      duration: {
+        type: Sequelize.STRING
+      },
+      startTime: {
+        type: Sequelize.STRING
+      },
+      endTime: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +38,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Activities');
+    return queryInterface.dropTable('Trackers');
   }
 };
